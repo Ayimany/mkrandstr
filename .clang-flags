@@ -1,0 +1,8 @@
+-std=c++23
+-pedantic
+-Weverything
+-Wno-pre-c++20-compat-pedantic
+-Wno-pre-c++17-compat
+-Wno-c++98-compat
+
+

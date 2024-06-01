@@ -1,0 +1,204 @@
+---
+BasedOnStyle: LLVM
+IndentWidth : 4
+---
+Language: Cpp
+Standard: Latest
+DisableFormat: false
+AccessModifierOffset: -4
+AlignAfterOpenBracket: BlockIndent
+AlignArrayOfStructures: Left
+AlignConsecutiveAssignments:
+    Enabled: true
+    AcrossEmptyLines: false
+    AcrossComments: false
+    AlignCompound: true
+    PadOperators: true
+AlignConsecutiveBitFields:
+    Enabled: true
+    AcrossEmptyLines: false
+    AcrossComments: false
+AlignConsecutiveDeclarations:
+    Enabled: true
+    AcrossEmptyLines: false
+    AcrossComments: false
+    # NOSUPPORT: clang17
+    #AlignFunctionPointers: true
+AlignConsecutiveMacros:
+    Enabled: true
+    AcrossEmptyLines: false
+    AcrossComments: false
+AlignConsecutiveShortCaseStatements:
+    Enabled: true
+    AcrossEmptyLines: false
+    AcrossComments: true
+    # NOSUPPORT: clang17
+    #AlignCaseArrows: true
+    AlignCaseColons: true
+AlignEscapedNewlines: Right
+AlignOperands: AlignAfterOperator
+AlignTrailingComments:
+    Kind: Always
+    OverEmptyLines: 0
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+# NOSUPPORT: clang17; SUPPORTED: clang18
+#AllowBreakBeforeNoexceptSpecifier: Always
+AllowShortBlocksOnASingleLine: Never
+# NOSUPPORT: clang17; SUPPORTED: clang19
+#AllowShortCaseExpressionOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: false
+# NOSUPPORT: clang17; SUPPORTED: clang18
+#AllowShortCompoundRequirementOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: None
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakBeforeMultilineStrings: true
+AttributeMacros: []
+BinPackArguments: false
+BinPackParameters: false
+BitFieldColonSpacing: Both
+BraceWrapping:
+    AfterCaseLabel: true
+    AfterClass: true
+    AfterControlStatement: true
+    AfterEnum: true
+    AfterFunction: true
+    AfterNamespace: true
+    AfterStruct: true
+    AfterUnion: true
+    AfterExternBlock: true
+    BeforeCatch: true
+    BeforeElse: true
+    BeforeLambdaBody: true
+    BeforeWhile: false
+BracedInitializerIndentWidth: 4
+# NOSUPPORT: clang17; SUPPORTED: clang18
+#BreakAdjacentStringLiterals: true
+BreakAfterAttributes: Always
+# NOSUPPORT: clang17; SUPPORTED: clang19
+#BreakAfterReturnType: All
+# REMOVE: When updating
+AlwaysBreakAfterReturnType: All
+BreakArrays: true
+BreakBeforeBinaryOperators: true
+BreakBeforeBraces: Custom
+BreakBeforeConceptDeclarations: Always
+BreakBeforeInlineASMColon: Always
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializers: BeforeComma
+# NOSUPPORT: clang17; SUPPORTED: clang19
+#BreakFunctionDefinitionParameters: true
+BreakInheritanceList: BeforeComma
+BreakStringLiterals: true
+# NOSUPPORT: clang17; SUPPORTED: clang19
+#BreakTemplateDeclarations: Yes
+ColumnLimit: 80
+CommentPragmas: '^ LMC'
+CompactNamespaces: false
+ConstructorInitializerIndentWidth: 0
+ContinuationIndentWidth: 4
+Cpp11BracedListStyle: false
+DerivePointerAlignment: false
+EmptyLineAfterAccessModifier: Never
+EmptyLineBeforeAccessModifier: LogicalBlock
+ExperimentalAutoDetectBinPacking: true
+FixNamespaceComments: true
+ForEachMacros: ['RANGES_FOR', 'FOREACH', 'BOOST_FOREACH']
+IfMacros: ['IF']
+IncludeBlocks: Regroup
+IncludeCategories:
+    - Regex:           '^(<|")(mooncat)/'
+      Priority:        3
+    - Regex:           '^((<|")(glfw|vulkan)/)'
+      Priority:        2
+    - Regex:           '<[[:alnum:].]+>'
+      Priority:        4
+    - Regex:           '.*'
+      Priority:        1
+      SortPriority:    0
+IndentAccessModifiers: false
+IndentCaseBlocks: true
+IndentCaseLabels: false
+IndentExternBlock: false
+IndentGotoLabels: false
+IndentPPDirectives: AfterHash
+IndentRequiresClause: false
+IndentWrappedFunctionNames: false
+InsertBraces: false
+InsertNewlineAtEOF: true
+InsertTrailingCommas: Wrapped
+IntegerLiteralSeparator:
+    Binary: 0
+    Decimal: 0
+    Hex: 0
+KeepEmptyLinesAtEOF: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+LambdaBodyIndentation: Signature
+LineEnding: LF
+MacroBlockBegin: "^LMC_BLOCK_.*_BEGIN"
+MacroBlockEnd: "^LMC_BLOCK_.*_END"
+# NOSUPPORT: clang17; SUPPORTED: clang19
+#MainIncludeChar: Any
+MaxEmptyLinesToKeep: 1
+NamespaceIndentation: None
+PPIndentWidth: -1
+PackConstructorInitializers: Never
+PointerAlignment: Right
+QualifierAlignment: Right
+# QualifierOrder: [ "restrict", "inline", "static", "volatile", "friend", "type", "const", "constexpr" ]
+ReferenceAlignment: Right
+ReflowComments: true
+RemoveBracesLLVM: false
+RemoveParentheses: Leave
+RemoveSemicolon: false
+RequiresClausePosition: OwnLine
+RequiresExpressionIndentation: OuterScope
+SeparateDefinitionBlocks: Always
+ShortNamespaceLines: 0
+# NOSUPPORT: clang17; SUPPORTED: clang19
+#SkipMacroDefinitionBody: false
+SortIncludes: CaseSensitive
+SortUsingDeclarations: Lexicographic
+SpaceAfterCStyleCast: true
+SpaceAfterLogicalNot: false
+SpaceAfterTemplateKeyword: true
+SpaceAroundPointerQualifiers: Default
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: true
+SpaceBeforeCpp11BracedList: true
+SpaceBeforeCtorInitializerColon: false
+SpaceBeforeInheritanceColon: false
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+    AfterControlStatements: true
+    AfterForeachMacros: true
+    AfterFunctionDeclarationName: false
+    AfterFunctionDefinitionName: false
+    AfterIfMacros: true
+    AfterOverloadedOperator: true
+    # NOSUPPORT: clang17; SUPPORTED: clang18
+    # AfterPlacementOperator: true
+    AfterRequiresInClause: true
+    AfterRequiresInExpression: true
+    BeforeNonEmptyParentheses: false
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: false
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 4
+SpacesInAngles: Never
+SpacesInContainerLiterals: true
+SpacesInLineCommentPrefix:
+    Minimum: 1
+    Maximum: 1
+SpacesInParens: Never
+SpacesInParensOptions:
+    InConditionalStatements: false
+    InEmptyParentheses: false
+    Other: false
+SpacesInSquareBrackets: false
+TabWidth: 4
+UseTab: Never
