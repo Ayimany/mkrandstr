@@ -1,0 +1,4 @@
+// clang-format off
+#define MKRANDSTR_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define MKRANDSTR_VERSION_MINOR @PROJECT_VERSION_MINOR@
+// clang-format-on

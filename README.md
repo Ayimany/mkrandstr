@@ -4,12 +4,16 @@ This thing just generates a random string of custom length.
 ## Compiling
 - Run:
 ```sh
-clang++ src/main.cc @.clang-flags -o rstr
+cmake .
+make
+
+# Optionally, install
+sudo make install
 ```
 
 ## Usage
 ```sh
-rstr [--count <num>]
+mkrandstr [--length <num>]
 ```
 
 

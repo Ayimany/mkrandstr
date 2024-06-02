@@ -1,35 +1,21 @@
+#include "mkrandstr/mkrandstr.hh"
+
 #include <algorithm>
 #include <cctype>
-#include <cstdint>
 #include <iostream>
+#include <new>
 #include <ostream>
 #include <random>
 #include <stdexcept>
-#include <string>
 #include <utility>
-#include <vector>
 
-enum class error_type
+namespace mkrandstr
 {
-    NONE,
-    CHAR_COUNT_UNPARSEABLE,
-    CHAR_COUNT_OUT_OF_BOUNDS,
-    CHAR_COUNT_NO_ELEMENT
-};
-
-std::uint32_t constexpr DEFAULT_STRING_LENGTH = 10;
-
-std::uint8_t constexpr ASCII_VISIBLE_CODEPOINT_START = '!';
-std::uint8_t constexpr ASCII_VISIBLE_CODEPOINT_END   = '~';
-
-namespace
-{
-[[nodiscard]]
 constexpr auto
 obtain_char_count(std::vector<std::string> const &vec) noexcept
     -> std::pair<std::uint64_t, error_type>
 {
-    auto flag    = std::find(vec.begin(), vec.end(), "--count");
+    auto flag    = std::find(vec.begin(), vec.end(), "--length");
     auto element = flag + 1;
 
     if (flag == vec.end())
@@ -63,20 +49,17 @@ obtain_char_count(std::vector<std::string> const &vec) noexcept
     {
         return std::make_pair(-1, error_type::CHAR_COUNT_OUT_OF_BOUNDS);
     }
-
-    return std::make_pair(DEFAULT_STRING_LENGTH, error_type::NONE);
 }
 
-[[nodiscard]]
 constexpr auto
-report_possible_error(error_type error) noexcept -> std::uint8_t
+report_error_if_present(error_type error) noexcept -> void
 {
     switch (error)
     {
     case error_type::NONE :
         {
         }
-        return 0;
+        break;
     case error_type::CHAR_COUNT_UNPARSEABLE :
         {
             std::println(
@@ -84,7 +67,7 @@ report_possible_error(error_type error) noexcept -> std::uint8_t
                 "[ERR] Could not parse desired character count"
             );
         }
-        return 1;
+        break;
     case error_type::CHAR_COUNT_OUT_OF_BOUNDS :
         {
             std::println(
@@ -93,7 +76,7 @@ report_possible_error(error_type error) noexcept -> std::uint8_t
                 "unsigned 64-bit integer"
             );
         }
-        return 1;
+        break;
     case error_type::CHAR_COUNT_NO_ELEMENT :
         {
             std::println(
@@ -101,13 +84,13 @@ report_possible_error(error_type error) noexcept -> std::uint8_t
                 "[ERR] Please provide a number after --count"
             );
         }
-        return 1;
+        break;
     }
 }
 
-[[nodiscard]]
 auto
-generate_random_string(std::uint64_t length) noexcept -> std::string
+generate_random_string(std::uint64_t length) noexcept
+    -> std::pair<std::string, error_type>
 {
     std::random_device                          dev {};
     std::mt19937                                engine { dev() };
@@ -116,7 +99,15 @@ generate_random_string(std::uint64_t length) noexcept -> std::string
         ASCII_VISIBLE_CODEPOINT_END
     };
 
-    std::vector<unsigned char> str(length);
+    std::vector<unsigned char> str;
+    try
+    {
+        str.resize(length);
+    }
+    catch (std::bad_alloc const &)
+    {
+        return std::make_pair("", error_type::STRING_GEN_BAD_ALLOC);
+    }
 
     std::generate(
         str.begin(),
@@ -127,29 +118,55 @@ generate_random_string(std::uint64_t length) noexcept -> std::string
         }
     );
 
-    return std::string { str.begin(), str.end() };
+    return std::make_pair(
+        std::string { str.begin(), str.end() },
+        error_type::NONE
+    );
 }
 
-}    // namespace
+}    // namespace mkrandstr
 
 auto
 main(int argc, char **argv) -> int
 {
-    std::uint8_t             error_count { 0 };
-    std::vector<std::string> args { argv + 1, argv + argc };
+    std::vector<std::string>           args { argv + 1, argv + argc };
+    std::vector<mkrandstr::error_type> errors;
+    bool                               has_errors = false;
 
-    std::pair<std::uint64_t, error_type> char_count { obtain_char_count(args) };
-    error_count += report_possible_error(char_count.second);
+    std::pair<std::uint64_t, mkrandstr::error_type> char_count {
+        mkrandstr::obtain_char_count(args)
+    };
+    errors.emplace_back(char_count.second);
 
-    if (error_count != 0)
+    for (mkrandstr::error_type error : errors)
+    {
+        mkrandstr::report_error_if_present(error);
+        if (error != mkrandstr::error_type::NONE)
+        {
+            has_errors = true;
+        }
+    }
+
+    if (has_errors)
     {
         std::println(std::cout, "[FATAL] Too many errors emmited. Aborting.");
         return 1;
     }
 
-    std::string str = generate_random_string(char_count.first);
+    std::pair<std::string, mkrandstr::error_type> str
+        = mkrandstr::generate_random_string(char_count.first);
 
-    std::println(std::cout, "{}", str);
+    if (str.second == mkrandstr::error_type::STRING_GEN_BAD_ALLOC)
+    {
+        std::println(
+            std::cout,
+            "[FATAL] Cannot allocate memory to generate a string of such size."
+        );
+        return 1;
+    }
+
+    std::println(std::cout, "{}", str.first);
 
     return 0;
 }
+
